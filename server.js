@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response')
 const app = express()
 
 const args = require('minimist')(process.argv.slice(2))
@@ -21,11 +22,20 @@ app.get('/app/', (req, res) => {
     res.type('text/plain')
 })
 
+app.get("/app/flip/", (req,res) =>{
+	var flipO = coinFlip()
+	return res.status(200).json({"flip" : flipO})
+})
+
+app.get('/app/flip/call/:call', (req, res) => {
+    res.status(200).json(flipACoin(req.params.call))
+});
 
 app.get('/app/flips/:number', (req, res) => {
 	const flips = manyflips(req.params.number)
-	//Other
-	//expressions
+	var flipResults = coinFlips(flips)
+	var final = countFlips(flipResults)
+	return res.status(200).json({"raw" : flipResults, "result": final})
 	//go
 	//here
 });
