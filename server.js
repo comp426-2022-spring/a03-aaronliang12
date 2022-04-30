@@ -39,3 +39,22 @@ app.get('/app/flips/:number', (req, res) => {
 	//go
 	//here
 });
+
+function coinFlip() {
+	var randInt = Math.floor(Math.random()*2);
+	if(randInt == 1){
+	  return "heads";
+	}
+	return "tails";
+  }
+
+function coinFlips(flips) {
+	var finalArr = new Array(flips);
+	for(let i = 0; i < finalArr.length; i++){
+	  finalArr[i] = coinFlip();
+	}
+	return finalArr;
+  }
+
+
+  
