@@ -23,8 +23,8 @@ app.get('/app/', (req, res) => {
 })
 
 app.get("/app/flip/", (req,res) =>{
-	var flipO = coinFlip()
-	return res.status(200).json({"flip" : flipO})
+	var flip = coinFlip()
+	return res.status(200).json({"flip" : flip})
 })
 
 app.get('/app/flip/call/:call', (req, res) => {
@@ -32,9 +32,8 @@ app.get('/app/flip/call/:call', (req, res) => {
 });
 
 app.get('/app/flips/:number', (req, res) => {
-	const flips = manyflips(req.params.number)
-	var flipResults = coinFlips(flips)
-	var final = countFlips(flipResults)
+	const flips = coinFlips(req.params.number)
+	var final = countFlips(flips)
 	return res.status(200).json({"raw" : flipResults, "result": final})
 	//go
 	//here
