@@ -56,5 +56,29 @@ function coinFlips(flips) {
 	return finalArr;
   }
 
+  function countFlips(array) {
+	let countResult = {heads: 0, tails: 0}
+	for(let i = 0; i < array.length; i++){
+	  if(array[i] == "heads"){
+		countResult.heads +=1; 
+	  }
+	  else{
+		countResult.tails +=1;
+	  }
+	}
+	return countResult;
+ }
+
+ function flipACoin(call) {
+	var flipRes = coinFlip();
+	var result = "";
+	if(call == flipRes){
+	  result = "win";
+	}
+	else{
+	  result = "lose";
+	}
+	return {call: call, flip: flipRes, result: result};
+  }
 
   
