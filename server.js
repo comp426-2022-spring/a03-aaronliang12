@@ -46,7 +46,7 @@ function coinFlip() {
 	return {call: call, flip: flipRes, result: result};
   }
 
-  
+
 const server = app.listen(port, () => {
     console.log(`App listening on port ${port}`)
 })
@@ -63,12 +63,15 @@ app.get("/app/flip/", (req, res) => {
     return res.status(200).json({"flip" : flip})
 })
 
-app.get("/app/flips/:number", (req, res) => {
-    var numFlips = req.params.number
-    var flipResults = coinFlips(numFlips)
-    var summary = countFlips(flipResults)
-    return res.status(200).json({"raw" : flipResults, "summary": summary})
-})
+app.get('/app/flips/:number', (req, res) => {
+    const raw = coinFlips(req.params.number);
+    const summary = countFlips(raw);
+    res.status(200).json({
+        "raw": raw,
+        "summary": summary
+    });
+});
+
 
 app.get("/app/flip/call/heads", (req, res) => {
     return res.status(200).json(flipACoin("heads"))
