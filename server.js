@@ -1,11 +1,7 @@
 const express = require('express')
-const res = require('express/lib/response')
 const app = express()
-
 const args = require('minimist')(process.argv.slice(2))
-args['port']
-
-const port = args.port || 5000
+const port = args['port'] || 5000
 
 // Start an app server
 const server = app.listen(port, () => {
@@ -27,14 +23,6 @@ app.get("/app/flip/", (req,res) =>{
 	return res.status(200).json({"flip" : flip})
 })
 
-app.get("/app/flip/call/heads", (req, res) => {
-    return res.status(200).json(flipACoin("heads"))
-})
-
-app.get("/app/flip/call/tails", (req,res) => {
-    return res.status(200).json(flipACoin("tails"))
-})
-
 app.get('/app/flips/:number', (req, res) => {
 	const flips = coinFlips(req.params.number)
 	var final = countFlips(flips)
@@ -42,6 +30,14 @@ app.get('/app/flips/:number', (req, res) => {
 	//go
 	//here
 });
+
+app.get("/app/flip/call/heads", (req, res) => {
+    return res.status(200).json(flipACoin("heads"))
+})
+
+app.get("/app/flip/call/tails", (req,res) => {
+    return res.status(200).json(flipACoin("tails"))
+})
 
 function coinFlip() {
 	var randInt = Math.floor(Math.random()*2);
