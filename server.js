@@ -14,12 +14,12 @@ function coinFlip() {
   }
 
   function coinFlips(flips) {
-	var finalArr = new Array(flips);
-	for(let i = 0; i < finalArr.length; i++){
-	  finalArr[i] = coinFlip();
-	}
-	return finalArr;
-  }
+    let array = [];
+    for (let i = 0; i < flips; i++) {
+      array.push(coinFlip());
+    }
+    return array;
+}
 
   function countFlips(array) {
 	let countResult = {heads: 0, tails: 0}
