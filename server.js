@@ -1,43 +1,9 @@
-const express = require('express')
+const express = require("express")
 const app = express()
-const args = require('minimist')(process.argv.slice(2))
-const port = args['port'] || 5000
+const minimist = require('minimist')
+const argv = minimist(process.argv.slice(2))
 
-// Start an app server
-const server = app.listen(port, () => {
-    console.log('App listening on port %PORT%'.replace('%PORT%',port))
-});
-
-// Default response for any other request
-app.use(function(req, res){
-    res.status(404).send('404 NOT FOUND')
-});
-
-app.get('/app/', (req, res) => {
-    res.status(200).end('OK')
-    res.type('text/plain')
-})
-
-app.get("/app/flip/", (req,res) =>{
-	var flip = coinFlip()
-	return res.status(200).json({"flip" : flip})
-})
-
-app.get('/app/flips/:number', (req, res) => {
-	const flips = coinFlips(req.params.number)
-	var final = countFlips(flips)
-	return res.status(200).json({"raw" : flipResults, "result": final})
-	//go
-	//here
-});
-
-app.get("/app/flip/call/heads", (req, res) => {
-    return res.status(200).json(flipACoin("heads"))
-})
-
-app.get("/app/flip/call/tails", (req,res) => {
-    return res.status(200).json(flipACoin("tails"))
-})
+const port = argv["port"] || 5000
 
 function coinFlip() {
 	var randInt = Math.floor(Math.random()*2);
@@ -47,7 +13,7 @@ function coinFlip() {
 	return "tails";
   }
 
-function coinFlips(flips) {
+  function coinFlips(flips) {
 	var finalArr = new Array(flips);
 	for(let i = 0; i < finalArr.length; i++){
 	  finalArr[i] = coinFlip();
@@ -81,3 +47,36 @@ function coinFlips(flips) {
   }
 
   
+const server = app.listen(port, () => {
+    console.log(`App listening on port ${port}`)
+})
+
+app.get("/app/", (req,res) => {
+    res.statusCode = 200
+    res.statusMessage = "ok"
+    res.writeHead(res.statusCode, {"Content-Type": "text/plain"})
+    res.end(res.statusCode + " " + res.statusMessage)
+})
+
+app.get("/app/flip/", (req, res) => {
+    var flip = coinFlip()
+    return res.status(200).json({"flip" : flip})
+})
+
+app.get("/app/flips/:number", (req, res) => {
+    var numFlips = req.params.number
+    var flipResults = coinFlips(numFlips)
+    var summary = countFlips(flipResults)
+    return res.status(200).json({"raw" : flipResults, "summary": summary})
+})
+
+app.get("/app/flip/call/heads", (req, res) => {
+    return res.status(200).json(flipACoin("heads"))
+})
+
+app.get("/app/flip/call/tails", (req,res) => {
+    return res.status(200).json(flipACoin("tails"))
+})
+app.use(function(req,res){
+    res.status(404).send("404 NOT FOUND")
+})
