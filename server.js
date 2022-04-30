@@ -27,9 +27,13 @@ app.get("/app/flip/", (req,res) =>{
 	return res.status(200).json({"flip" : flip})
 })
 
-app.get('/app/flip/call/:call', (req, res) => {
-    res.status(200).json(flipACoin(req.params.call))
-});
+app.get("/app/flip/call/heads", (req, res) => {
+    return res.status(200).json(flipACoin("heads"))
+})
+
+app.get("/app/flip/call/tails", (req,res) => {
+    return res.status(200).json(flipACoin("tails"))
+})
 
 app.get('/app/flips/:number', (req, res) => {
 	const flips = coinFlips(req.params.number)
